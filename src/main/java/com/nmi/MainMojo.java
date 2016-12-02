@@ -15,7 +15,9 @@ import java.text.MessageFormat;
 
 @Mojo(name = "dto2ts")
 public class MainMojo extends AbstractMojo {
-    /** A modifier indicating a public field */
+    /**
+     * A modifier indicating a public field
+     */
     private final int modifierPublic = 1;
 
     @Parameter
@@ -35,6 +37,9 @@ public class MainMojo extends AbstractMojo {
 
     @Parameter
     private boolean addNamespace = false;
+
+    @Parameter
+    private boolean includePrivate = true;
 
     @Parameter
     private String namespace;
@@ -105,7 +110,7 @@ public class MainMojo extends AbstractMojo {
                 outputStr.append(" {\n");
                 final Field[] allFields = FieldUtils.getAllFields(aClass);
                 for (Field field : allFields) {
-                    if (field.getModifiers() != modifierPublic) {
+                    if (field.getModifiers() != modifierPublic && !includePrivate) {
                         continue;
                     }
                     outputStr.append("\tpublic ");
